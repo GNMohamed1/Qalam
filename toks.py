@@ -1,10 +1,15 @@
 class Token:
     tokens = (
-        'NUMBER',
+        'INT',
+        'FLOAT',
+        'IDENTIFIER',
         'PLUS',
         'MINUS',
         'TIMES',
         'DIVIDE',
+        'POWER',
         'LPAREN',
         'RPAREN',
+        'ASSIGN',
+        'VAR',
     )

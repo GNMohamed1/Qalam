@@ -4,17 +4,18 @@ from parse import Parser
 
 
 class Interpreter:
-    def __init__(self):
+    def __init__(self, vars):
+        self.vars = vars
         self.lexer = Lexer()
-        self.parser = Parser()
+        self.parser = Parser(vars)
 
         self.lexer.build()
         self.parser.build()
 
     def evaluate(self, input_str):
-        return self.parser.parser.parse(input_str, lexer=self.lexer.lexer)
+        return self.parser.parser.parse(input_str, lexer=self.lexer.lexer), self.parser.vars
 
 
 if __name__ == '__main__':
-    interpreter = Interpreter()
-    print(interpreter.evaluate("2 + 3 * 4"))
+    interpreter = Interpreter(vars={})
+    print(interpreter.evaluate("متغير أ = 10 " + "أ + 20"))

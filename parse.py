@@ -2,41 +2,74 @@ import ply.yacc as yacc
 from toks import Token
 
 class Parser:
-    def __init__(self):
+    def __init__(self, vars):
         self.tokens = Token.tokens
         self.parser = None
         
         self.precedence = (
         ('left', 'PLUS', 'MINUS'),
         ('left', 'TIMES', 'DIVIDE'),
+        ('right', 'POWER')
         )
+        
+        self.vars = vars
+        
+    def p_statement_assign(self, p):
+        'statement : VAR IDENTIFIER ASSIGN expression'
+        self.vars[p[2]] = p[4]
+        p[0] = p[4]
+
+    def p_statement_expr(self, p):
+        'statement : expression'
+        p[0] = p[1]
 
     def p_expression_plus(self, p):
-        'expression : expression PLUS expression'
+        'expression : expression PLUS term'
         p[0] = p[1] + p[3]
 
     def p_expression_minus(self, p):
-        'expression : expression MINUS expression'
+        'expression : expression MINUS term'
         p[0] = p[1] - p[3]
 
-    def p_expression_times(self, p):
-        'expression : expression TIMES expression'
+    def p_expression_term(self, p):
+        'expression : term'
+        p[0] = p[1]
+
+    def p_term_times(self, p):
+        'term : term TIMES factor'
         p[0] = p[1] * p[3]
 
-    def p_expression_divide(self, p):
-        'expression : expression DIVIDE expression'
+    def p_term_divide(self, p):
+        'term : term DIVIDE factor'
         try:
             p[0] = p[1] / p[3]
         except ZeroDivisionError:
             print("division by zero!")
             p[0] = 0
 
-    def p_expression_number(self, p):
-        'expression : NUMBER'
-        p[0] = int(p[1])
+    def p_term_factor(self, p):
+        'term : factor'
+        p[0] = p[1]
+        
+    def p_factor_power(self, p):
+        'factor : factor POWER factor'
+        p[0] = p[1] ** p[3]
 
-    def p_expression_group(self, p):
-        'expression : LPAREN expression RPAREN'
+    def p_factor_num(self, p):
+        '''factor : INT
+                  | FLOAT'''
+        p[0] = p[1]
+
+    def p_factor_identifier(self, p):
+        'factor : IDENTIFIER'
+        if p[1] in self.vars:
+            p[0] = self.vars[p[1]]
+        else:
+            print(f"undefined variable '{p[1]}'")
+            p[0] = 0
+
+    def p_factor_group(self, p):
+        'factor : LPAREN expression RPAREN'
         p[0] = p[2]
 
     def p_error(self, p):
