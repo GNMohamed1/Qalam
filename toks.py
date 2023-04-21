@@ -12,4 +12,8 @@ class Token:
         'RPAREN',
         'ASSIGN',
         'VAR',
+        'AND',
+        'OR',
+        'NOT',
+        'BOOL',
     )

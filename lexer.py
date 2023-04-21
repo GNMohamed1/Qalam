@@ -18,13 +18,34 @@ class Lexer:
     t_LPAREN  = r'\('
     t_RPAREN  = r'\)'
     t_ASSIGN  = r'='
-    t_VAR     = r'متغير'
     
     def t_IDENTIFIER(self, t):
         r'[a-zA-Z_\u0600-\u06FF][a-zA-Z0-9_\u0600-\u06FF]*'
         if t.value == 'متغير':
             t.type = 'VAR'
             return t
+        
+        if t.value == 'صح' or t.value == 'خطا':
+            
+            if t.value == 'صح':
+                t.value = True
+            else:
+                t.value = False
+            t.type = 'BOOL'
+            return t
+        
+        if t.value == 'و':
+            t.type = 'AND'
+            return t
+        
+        if t.value == 'او':
+            t.type = 'OR'
+            return t
+        
+        if t.value == 'ليس':
+            t.type = 'NOT'
+            return t
+        
         t.type = 'IDENTIFIER'
         return t
     
@@ -39,8 +60,6 @@ class Lexer:
         t.value = int(t.value)
         t.type = 'INT'
         return t
-
-
 
     def t_error(self, t):
         print(f"Illegal character '{t.value[0]}'")

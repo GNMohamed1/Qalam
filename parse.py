@@ -7,6 +7,9 @@ class Parser:
         self.parser = None
         
         self.precedence = (
+        ('left', 'OR'),
+        ('left', 'AND'),
+        ('right', 'NOT'),
         ('left', 'PLUS', 'MINUS'),
         ('left', 'TIMES', 'DIVIDE'),
         ('right', 'POWER')
@@ -34,6 +37,22 @@ class Parser:
     def p_expression_term(self, p):
         'expression : term'
         p[0] = p[1]
+        
+    def p_expression_boolean(self, p):
+        '''expression : BOOL'''
+        p[0] = bool(p[1])
+
+    def p_expression_not(self, p):
+        'expression : NOT expression'
+        p[0] = not p[2]
+
+    def p_expression_and(self, p):
+        'expression : expression AND expression'
+        p[0] = p[1] and p[3]
+
+    def p_expression_or(self, p):
+        'expression : expression OR expression'
+        p[0] = p[1] or p[3]
 
     def p_term_times(self, p):
         'term : term TIMES factor'

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDErightPOWERASSIGN DIVIDE FLOAT IDENTIFIER INT LPAREN MINUS PLUS POWER RPAREN TIMES VARstatement : VAR IDENTIFIER ASSIGN expressionstatement : expressionexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : factor POWER factorfactor : INT\n                  | FLOATfactor : IDENTIFIERfactor : LPAREN expression RPAREN'
+_lr_signature = 'leftORleftANDrightNOTleftPLUSMINUSleftTIMESDIVIDErightPOWERAND ASSIGN BOOL DIVIDE FLOAT IDENTIFIER INT LPAREN MINUS NOT OR PLUS POWER RPAREN TIMES VARstatement : VAR IDENTIFIER ASSIGN expressionstatement : expressionexpression : expression PLUS termexpression : expression MINUS termexpression : termexpression : BOOLexpression : NOT expressionexpression : expression AND expressionexpression : expression OR expressionterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : factor POWER factorfactor : INT\n                  | FLOATfactor : IDENTIFIERfactor : LPAREN expression RPAREN'
     
-_lr_action_items = {'VAR':([0,],[2,]),'INT':([0,9,11,12,13,14,15,17,],[7,7,7,7,7,7,7,7,]),'FLOAT':([0,9,11,12,13,14,15,17,],[8,8,8,8,8,8,8,8,]),'IDENTIFIER':([0,2,9,11,12,13,14,15,17,],[3,10,3,3,3,3,3,3,3,]),'LPAREN':([0,9,11,12,13,14,15,17,],[9,9,9,9,9,9,9,9,]),'$end':([1,3,4,5,6,7,8,18,19,20,21,22,23,24,],[0,-12,-2,-5,-8,-10,-11,-3,-4,-6,-7,-9,-13,-1,]),'POWER':([3,6,7,8,20,21,22,23,],[-12,15,-10,-11,15,15,15,-13,]),'TIMES':([3,5,6,7,8,18,19,20,21,22,23,],[-12,13,-8,-10,-11,13,13,-6,-7,-9,-13,]),'DIVIDE':([3,5,6,7,8,18,19,20,21,22,23,],[-12,14,-8,-10,-11,14,14,-6,-7,-9,-13,]),'PLUS':([3,4,5,6,7,8,16,18,19,20,21,22,23,24,],[-12,11,-5,-8,-10,-11,11,-3,-4,-6,-7,-9,-13,11,]),'MINUS':([3,4,5,6,7,8,16,18,19,20,21,22,23,24,],[-12,12,-5,-8,-10,-11,12,-3,-4,-6,-7,-9,-13,12,]),'RPAREN':([3,5,6,7,8,16,18,19,20,21,22,23,],[-12,-5,-8,-10,-11,23,-3,-4,-6,-7,-9,-13,]),'ASSIGN':([10,],[17,]),}
+_lr_action_items = {'VAR':([0,],[2,]),'BOOL':([0,7,11,15,16,22,],[6,6,6,6,6,6,]),'NOT':([0,7,11,15,16,22,],[7,7,7,7,7,7,]),'INT':([0,7,11,13,14,15,16,17,18,20,22,],[9,9,9,9,9,9,9,9,9,9,9,]),'FLOAT':([0,7,11,13,14,15,16,17,18,20,22,],[10,10,10,10,10,10,10,10,10,10,10,]),'IDENTIFIER':([0,2,7,11,13,14,15,16,17,18,20,22,],[3,12,3,3,3,3,3,3,3,3,3,3,]),'LPAREN':([0,7,11,13,14,15,16,17,18,20,22,],[11,11,11,11,11,11,11,11,11,11,11,]),'$end':([1,3,4,5,6,8,9,10,19,23,24,25,26,27,28,29,30,31,],[0,-16,-2,-5,-6,-12,-14,-15,-7,-3,-4,-8,-9,-10,-11,-13,-17,-1,]),'POWER':([3,8,9,10,27,28,29,30,],[-16,20,-14,-15,20,20,20,-17,]),'TIMES':([3,5,8,9,10,23,24,27,28,29,30,],[-16,17,-12,-14,-15,17,17,-10,-11,-13,-17,]),'DIVIDE':([3,5,8,9,10,23,24,27,28,29,30,],[-16,18,-12,-14,-15,18,18,-10,-11,-13,-17,]),'PLUS':([3,4,5,6,8,9,10,19,21,23,24,25,26,27,28,29,30,31,],[-16,13,-5,-6,-12,-14,-15,13,13,-3,-4,13,13,-10,-11,-13,-17,13,]),'MINUS':([3,4,5,6,8,9,10,19,21,23,24,25,26,27,28,29,30,31,],[-16,14,-5,-6,-12,-14,-15,14,14,-3,-4,14,14,-10,-11,-13,-17,14,]),'AND':([3,4,5,6,8,9,10,19,21,23,24,25,26,27,28,29,30,31,],[-16,15,-5,-6,-12,-14,-15,-7,15,-3,-4,-8,15,-10,-11,-13,-17,15,]),'OR':([3,4,5,6,8,9,10,19,21,23,24,25,26,27,28,29,30,31,],[-16,16,-5,-6,-12,-14,-15,-7,16,-3,-4,-8,-9,-10,-11,-13,-17,16,]),'RPAREN':([3,5,6,8,9,10,19,21,23,24,25,26,27,28,29,30,],[-16,-5,-6,-12,-14,-15,-7,30,-3,-4,-8,-9,-10,-11,-13,-17,]),'ASSIGN':([12,],[22,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,9,17,],[4,16,24,]),'term':([0,9,11,12,17,],[5,5,18,19,5,]),'factor':([0,9,11,12,13,14,15,17,],[6,6,6,6,20,21,22,6,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,7,11,15,16,22,],[4,19,21,25,26,31,]),'term':([0,7,11,13,14,15,16,22,],[5,5,5,23,24,5,5,5,]),'factor':([0,7,11,13,14,15,16,17,18,20,22,],[8,8,8,8,8,8,8,27,28,29,8,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,17 +27,21 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> VAR IDENTIFIER ASSIGN expression','statement',4,'p_statement_assign','parse.py',18),
-  ('statement -> expression','statement',1,'p_statement_expr','parse.py',23),
-  ('expression -> expression PLUS term','expression',3,'p_expression_plus','parse.py',27),
-  ('expression -> expression MINUS term','expression',3,'p_expression_minus','parse.py',31),
-  ('expression -> term','expression',1,'p_expression_term','parse.py',35),
-  ('term -> term TIMES factor','term',3,'p_term_times','parse.py',39),
-  ('term -> term DIVIDE factor','term',3,'p_term_divide','parse.py',43),
-  ('term -> factor','term',1,'p_term_factor','parse.py',51),
-  ('factor -> factor POWER factor','factor',3,'p_factor_power','parse.py',55),
-  ('factor -> INT','factor',1,'p_factor_num','parse.py',59),
-  ('factor -> FLOAT','factor',1,'p_factor_num','parse.py',60),
-  ('factor -> IDENTIFIER','factor',1,'p_factor_identifier','parse.py',64),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_group','parse.py',72),
+  ('statement -> VAR IDENTIFIER ASSIGN expression','statement',4,'p_statement_assign','parse.py',21),
+  ('statement -> expression','statement',1,'p_statement_expr','parse.py',26),
+  ('expression -> expression PLUS term','expression',3,'p_expression_plus','parse.py',30),
+  ('expression -> expression MINUS term','expression',3,'p_expression_minus','parse.py',34),
+  ('expression -> term','expression',1,'p_expression_term','parse.py',38),
+  ('expression -> BOOL','expression',1,'p_expression_boolean','parse.py',42),
+  ('expression -> NOT expression','expression',2,'p_expression_not','parse.py',46),
+  ('expression -> expression AND expression','expression',3,'p_expression_and','parse.py',50),
+  ('expression -> expression OR expression','expression',3,'p_expression_or','parse.py',54),
+  ('term -> term TIMES factor','term',3,'p_term_times','parse.py',58),
+  ('term -> term DIVIDE factor','term',3,'p_term_divide','parse.py',62),
+  ('term -> factor','term',1,'p_term_factor','parse.py',70),
+  ('factor -> factor POWER factor','factor',3,'p_factor_power','parse.py',74),
+  ('factor -> INT','factor',1,'p_factor_num','parse.py',78),
+  ('factor -> FLOAT','factor',1,'p_factor_num','parse.py',79),
+  ('factor -> IDENTIFIER','factor',1,'p_factor_identifier','parse.py',83),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_group','parse.py',91),
 ]
