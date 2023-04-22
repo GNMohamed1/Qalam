@@ -16,4 +16,12 @@ class Token:
         'OR',
         'NOT',
         'BOOL',
+        'EQT',
+        'NEQ',
+        'LT',
+        'GT',
+        'ELT',
+        'EGT',
+        'NEWLINE',
+        'SEMICOLON',
     )

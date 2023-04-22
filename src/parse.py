@@ -1,8 +1,10 @@
 import ply.yacc as yacc
-from toks import Token
+from src.toks import Token
+from src.table  import SymbolTable
 
 class Parser:
-    def __init__(self, vars):
+    def __init__(self, symbol_table:SymbolTable):
+        self.symbol_table = symbol_table
         self.tokens = Token.tokens
         self.parser = None
         
@@ -10,16 +12,24 @@ class Parser:
         ('left', 'OR'),
         ('left', 'AND'),
         ('right', 'NOT'),
+        ('left',   'EQT'),
+        ('left',   'NEQ'),
+        ('left',   'LT'),
+        ('left',   'GT'),
+        ('left',   'ELT'),
+        ('left',   'EGT'),
         ('left', 'PLUS', 'MINUS'),
         ('left', 'TIMES', 'DIVIDE'),
         ('right', 'POWER')
         )
         
-        self.vars = vars
         
     def p_statement_assign(self, p):
-        'statement : VAR IDENTIFIER ASSIGN expression'
-        self.vars[p[2]] = p[4]
+        '''statement : VAR IDENTIFIER ASSIGN expression NEWLINE
+                    | VAR IDENTIFIER ASSIGN expression
+                    |  expression NEWLINE
+                    | NEWLINE'''
+        self.symbol_table.set_variable(p[2], p[4])
         p[0] = p[4]
 
     def p_statement_expr(self, p):
@@ -53,6 +63,30 @@ class Parser:
     def p_expression_or(self, p):
         'expression : expression OR expression'
         p[0] = p[1] or p[3]
+        
+    def p_expression_eqt(self, p):
+        'expression : expression EQT expression'
+        p[0] = p[1] == p[3]
+    
+    def p_expression_neq(self, p):
+        'expression : expression NEQ expression'
+        p[0] = p[1] != p[3]
+        
+    def p_expression_lt(self, p):
+        'expression : expression LT expression'
+        p[0] = p[1] < p[3]
+        
+    def p_expression_gt(self, p):
+        'expression : expression GT expression'
+        p[0] = p[1] > p[3]
+    
+    def p_expression_elt(self, p):
+        'expression : expression ELT expression'
+        p[0] = p[1] <= p[3]
+        
+    def p_expression_egt(self, p):
+        'expression : expression EGT expression'
+        p[0] = p[1] >= p[3]
 
     def p_term_times(self, p):
         'term : term TIMES factor'
@@ -80,9 +114,10 @@ class Parser:
         p[0] = p[1]
 
     def p_factor_identifier(self, p):
-        'factor : IDENTIFIER'
-        if p[1] in self.vars:
-            p[0] = self.vars[p[1]]
+        '''factor : IDENTIFIER
+                | NEWLINE IDENTIFIER'''
+        if self.symbol_table.is_variable(p[1]):
+            p[0] = self.symbol_table.get_variable(p[1])
         else:
             print(f"undefined variable '{p[1]}'")
             p[0] = 0
@@ -93,9 +128,9 @@ class Parser:
 
     def p_error(self, p):
         if p:
-            print(f"syntax error at '{p.value}'")
+            print(f"Syntax error at line {p.lineno}, position {p.lexpos}: unexpected token '{p.value}'")
         else:
-            print("syntax error at EOF")
+            print("Syntax error at EOF")
 
     def build(self, **kwargs):
         self.parser = yacc.yacc(module=self, **kwargs)
