@@ -110,8 +110,14 @@ class Parser:
 
     def p_factor_num(self, p):
         '''factor : INT
-                  | FLOAT'''
-        p[0] = p[1]
+                  | FLOAT
+                  | MINUS INT
+                  | MINUS FLOAT'''
+                  
+        if len(p) == 2:
+            p[0] = p[1]
+        else:
+            p[0] = -p[2]
 
     def p_factor_identifier(self, p):
         '''factor : IDENTIFIER

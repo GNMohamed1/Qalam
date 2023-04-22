@@ -31,9 +31,11 @@ Rule 21    term -> factor
 Rule 22    factor -> factor POWER factor
 Rule 23    factor -> INT
 Rule 24    factor -> FLOAT
-Rule 25    factor -> IDENTIFIER
-Rule 26    factor -> NEWLINE IDENTIFIER
-Rule 27    factor -> LPAREN expression RPAREN
+Rule 25    factor -> MINUS INT
+Rule 26    factor -> MINUS FLOAT
+Rule 27    factor -> IDENTIFIER
+Rule 28    factor -> NEWLINE IDENTIFIER
+Rule 29    factor -> LPAREN expression RPAREN
 
 Terminals, with rules where they appear
 
@@ -44,20 +46,20 @@ DIVIDE               : 20
 EGT                  : 18
 ELT                  : 17
 EQT                  : 13
-FLOAT                : 24
+FLOAT                : 24 26
 GT                   : 16
-IDENTIFIER           : 1 2 25 26
-INT                  : 23
-LPAREN               : 27
+IDENTIFIER           : 1 2 27 28
+INT                  : 23 25
+LPAREN               : 29
 LT                   : 15
-MINUS                : 7
+MINUS                : 7 25 26
 NEQ                  : 14
-NEWLINE              : 1 3 4 26
+NEWLINE              : 1 3 4 28
 NOT                  : 10
 OR                   : 12
 PLUS                 : 6
 POWER                : 22
-RPAREN               : 27
+RPAREN               : 29
 SEMICOLON            : 
 TIMES                : 19
 VAR                  : 1 2
@@ -65,7 +67,7 @@ error                :
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 3 5 6 7 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 27
+expression           : 1 2 3 5 6 7 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 29
 factor               : 19 20 21 22 22
 statement            : 0
 term                 : 6 7 8 19 20
@@ -99,23 +101,26 @@ state 0
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
     VAR             shift and go to state 2
     NEWLINE         shift and go to state 5
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    LPAREN          shift and go to state 12
+    LPAREN          shift and go to state 13
 
     statement                      shift and go to state 1
     expression                     shift and go to state 4
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
 state 1
 
@@ -128,29 +133,29 @@ state 2
     (1) statement -> VAR . IDENTIFIER ASSIGN expression NEWLINE
     (2) statement -> VAR . IDENTIFIER ASSIGN expression
 
-    IDENTIFIER      shift and go to state 13
+    IDENTIFIER      shift and go to state 14
 
 
 state 3
 
-    (25) factor -> IDENTIFIER .
+    (27) factor -> IDENTIFIER .
 
-    POWER           reduce using rule 25 (factor -> IDENTIFIER .)
-    TIMES           reduce using rule 25 (factor -> IDENTIFIER .)
-    DIVIDE          reduce using rule 25 (factor -> IDENTIFIER .)
-    NEWLINE         reduce using rule 25 (factor -> IDENTIFIER .)
-    PLUS            reduce using rule 25 (factor -> IDENTIFIER .)
-    MINUS           reduce using rule 25 (factor -> IDENTIFIER .)
-    AND             reduce using rule 25 (factor -> IDENTIFIER .)
-    OR              reduce using rule 25 (factor -> IDENTIFIER .)
-    EQT             reduce using rule 25 (factor -> IDENTIFIER .)
-    NEQ             reduce using rule 25 (factor -> IDENTIFIER .)
-    LT              reduce using rule 25 (factor -> IDENTIFIER .)
-    GT              reduce using rule 25 (factor -> IDENTIFIER .)
-    ELT             reduce using rule 25 (factor -> IDENTIFIER .)
-    EGT             reduce using rule 25 (factor -> IDENTIFIER .)
-    $end            reduce using rule 25 (factor -> IDENTIFIER .)
-    RPAREN          reduce using rule 25 (factor -> IDENTIFIER .)
+    POWER           reduce using rule 27 (factor -> IDENTIFIER .)
+    TIMES           reduce using rule 27 (factor -> IDENTIFIER .)
+    DIVIDE          reduce using rule 27 (factor -> IDENTIFIER .)
+    NEWLINE         reduce using rule 27 (factor -> IDENTIFIER .)
+    PLUS            reduce using rule 27 (factor -> IDENTIFIER .)
+    MINUS           reduce using rule 27 (factor -> IDENTIFIER .)
+    AND             reduce using rule 27 (factor -> IDENTIFIER .)
+    OR              reduce using rule 27 (factor -> IDENTIFIER .)
+    EQT             reduce using rule 27 (factor -> IDENTIFIER .)
+    NEQ             reduce using rule 27 (factor -> IDENTIFIER .)
+    LT              reduce using rule 27 (factor -> IDENTIFIER .)
+    GT              reduce using rule 27 (factor -> IDENTIFIER .)
+    ELT             reduce using rule 27 (factor -> IDENTIFIER .)
+    EGT             reduce using rule 27 (factor -> IDENTIFIER .)
+    $end            reduce using rule 27 (factor -> IDENTIFIER .)
+    RPAREN          reduce using rule 27 (factor -> IDENTIFIER .)
 
 
 state 4
@@ -168,27 +173,27 @@ state 4
     (17) expression -> expression . ELT expression
     (18) expression -> expression . EGT expression
 
-    NEWLINE         shift and go to state 14
+    NEWLINE         shift and go to state 15
     $end            reduce using rule 5 (statement -> expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    AND             shift and go to state 17
-    OR              shift and go to state 18
-    EQT             shift and go to state 19
-    NEQ             shift and go to state 20
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    AND             shift and go to state 18
+    OR              shift and go to state 19
+    EQT             shift and go to state 20
+    NEQ             shift and go to state 21
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
 
 state 5
 
     (4) statement -> NEWLINE .
-    (26) factor -> NEWLINE . IDENTIFIER
+    (28) factor -> NEWLINE . IDENTIFIER
 
     $end            reduce using rule 4 (statement -> NEWLINE .)
-    IDENTIFIER      shift and go to state 25
+    IDENTIFIER      shift and go to state 26
 
 
 state 6
@@ -210,11 +215,20 @@ state 6
     EGT             reduce using rule 8 (expression -> term .)
     $end            reduce using rule 8 (expression -> term .)
     RPAREN          reduce using rule 8 (expression -> term .)
-    TIMES           shift and go to state 26
-    DIVIDE          shift and go to state 27
+    TIMES           shift and go to state 27
+    DIVIDE          shift and go to state 28
 
 
 state 7
+
+    (25) factor -> MINUS . INT
+    (26) factor -> MINUS . FLOAT
+
+    INT             shift and go to state 29
+    FLOAT           shift and go to state 30
+
+
+state 8
 
     (9) expression -> BOOL .
 
@@ -233,7 +247,7 @@ state 7
     RPAREN          reduce using rule 9 (expression -> BOOL .)
 
 
-state 8
+state 9
 
     (10) expression -> NOT . expression
     (6) expression -> . expression PLUS term
@@ -255,23 +269,26 @@ state 8
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 28
+    expression                     shift and go to state 31
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 9
+state 10
 
     (21) term -> factor .
     (22) factor -> factor . POWER factor
@@ -291,10 +308,10 @@ state 9
     EGT             reduce using rule 21 (term -> factor .)
     $end            reduce using rule 21 (term -> factor .)
     RPAREN          reduce using rule 21 (term -> factor .)
-    POWER           shift and go to state 30
+    POWER           shift and go to state 33
 
 
-state 10
+state 11
 
     (23) factor -> INT .
 
@@ -316,7 +333,7 @@ state 10
     RPAREN          reduce using rule 23 (factor -> INT .)
 
 
-state 11
+state 12
 
     (24) factor -> FLOAT .
 
@@ -338,9 +355,9 @@ state 11
     RPAREN          reduce using rule 24 (factor -> FLOAT .)
 
 
-state 12
+state 13
 
-    (27) factor -> LPAREN . expression RPAREN
+    (29) factor -> LPAREN . expression RPAREN
     (6) expression -> . expression PLUS term
     (7) expression -> . expression MINUS term
     (8) expression -> . term
@@ -360,38 +377,41 @@ state 12
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 31
+    expression                     shift and go to state 34
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 13
+state 14
 
     (1) statement -> VAR IDENTIFIER . ASSIGN expression NEWLINE
     (2) statement -> VAR IDENTIFIER . ASSIGN expression
 
-    ASSIGN          shift and go to state 32
+    ASSIGN          shift and go to state 35
 
 
-state 14
+state 15
 
     (3) statement -> expression NEWLINE .
 
     $end            reduce using rule 3 (statement -> expression NEWLINE .)
 
 
-state 15
+state 16
 
     (6) expression -> expression PLUS . term
     (19) term -> . term TIMES factor
@@ -400,20 +420,23 @@ state 15
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    term                           shift and go to state 33
-    factor                         shift and go to state 9
+    term                           shift and go to state 36
+    factor                         shift and go to state 10
 
-state 16
+state 17
 
     (7) expression -> expression MINUS . term
     (19) term -> . term TIMES factor
@@ -422,20 +445,23 @@ state 16
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    term                           shift and go to state 34
-    factor                         shift and go to state 9
+    term                           shift and go to state 37
+    factor                         shift and go to state 10
 
-state 17
+state 18
 
     (11) expression -> expression AND . expression
     (6) expression -> . expression PLUS term
@@ -457,23 +483,26 @@ state 17
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 35
+    expression                     shift and go to state 38
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 18
+state 19
 
     (12) expression -> expression OR . expression
     (6) expression -> . expression PLUS term
@@ -495,23 +524,26 @@ state 18
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 36
+    expression                     shift and go to state 39
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 19
+state 20
 
     (13) expression -> expression EQT . expression
     (6) expression -> . expression PLUS term
@@ -533,23 +565,26 @@ state 19
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 37
+    expression                     shift and go to state 40
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 20
+state 21
 
     (14) expression -> expression NEQ . expression
     (6) expression -> . expression PLUS term
@@ -571,23 +606,26 @@ state 20
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 38
+    expression                     shift and go to state 41
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 21
+state 22
 
     (15) expression -> expression LT . expression
     (6) expression -> . expression PLUS term
@@ -609,23 +647,26 @@ state 21
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 39
+    expression                     shift and go to state 42
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 22
+state 23
 
     (16) expression -> expression GT . expression
     (6) expression -> . expression PLUS term
@@ -647,23 +688,26 @@ state 22
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 40
+    expression                     shift and go to state 43
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 23
+state 24
 
     (17) expression -> expression ELT . expression
     (6) expression -> . expression PLUS term
@@ -685,23 +729,26 @@ state 23
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 41
+    expression                     shift and go to state 44
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 24
+state 25
 
     (18) expression -> expression EGT . expression
     (6) expression -> . expression PLUS term
@@ -723,81 +770,134 @@ state 24
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 42
+    expression                     shift and go to state 45
     term                           shift and go to state 6
-    factor                         shift and go to state 9
-
-state 25
-
-    (26) factor -> NEWLINE IDENTIFIER .
-
-    POWER           reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    TIMES           reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    DIVIDE          reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    NEWLINE         reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    PLUS            reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    MINUS           reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    AND             reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    OR              reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    EQT             reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    NEQ             reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    LT              reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    GT              reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    ELT             reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    EGT             reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    $end            reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-    RPAREN          reduce using rule 26 (factor -> NEWLINE IDENTIFIER .)
-
+    factor                         shift and go to state 10
 
 state 26
+
+    (28) factor -> NEWLINE IDENTIFIER .
+
+    POWER           reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    TIMES           reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    DIVIDE          reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    NEWLINE         reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    PLUS            reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    MINUS           reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    AND             reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    OR              reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    EQT             reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    NEQ             reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    LT              reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    GT              reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    ELT             reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    EGT             reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    $end            reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+    RPAREN          reduce using rule 28 (factor -> NEWLINE IDENTIFIER .)
+
+
+state 27
 
     (19) term -> term TIMES . factor
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    factor                         shift and go to state 43
+    factor                         shift and go to state 46
 
-state 27
+state 28
 
     (20) term -> term DIVIDE . factor
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    factor                         shift and go to state 44
+    factor                         shift and go to state 47
 
-state 28
+state 29
+
+    (25) factor -> MINUS INT .
+
+    POWER           reduce using rule 25 (factor -> MINUS INT .)
+    TIMES           reduce using rule 25 (factor -> MINUS INT .)
+    DIVIDE          reduce using rule 25 (factor -> MINUS INT .)
+    NEWLINE         reduce using rule 25 (factor -> MINUS INT .)
+    PLUS            reduce using rule 25 (factor -> MINUS INT .)
+    MINUS           reduce using rule 25 (factor -> MINUS INT .)
+    AND             reduce using rule 25 (factor -> MINUS INT .)
+    OR              reduce using rule 25 (factor -> MINUS INT .)
+    EQT             reduce using rule 25 (factor -> MINUS INT .)
+    NEQ             reduce using rule 25 (factor -> MINUS INT .)
+    LT              reduce using rule 25 (factor -> MINUS INT .)
+    GT              reduce using rule 25 (factor -> MINUS INT .)
+    ELT             reduce using rule 25 (factor -> MINUS INT .)
+    EGT             reduce using rule 25 (factor -> MINUS INT .)
+    $end            reduce using rule 25 (factor -> MINUS INT .)
+    RPAREN          reduce using rule 25 (factor -> MINUS INT .)
+
+
+state 30
+
+    (26) factor -> MINUS FLOAT .
+
+    POWER           reduce using rule 26 (factor -> MINUS FLOAT .)
+    TIMES           reduce using rule 26 (factor -> MINUS FLOAT .)
+    DIVIDE          reduce using rule 26 (factor -> MINUS FLOAT .)
+    NEWLINE         reduce using rule 26 (factor -> MINUS FLOAT .)
+    PLUS            reduce using rule 26 (factor -> MINUS FLOAT .)
+    MINUS           reduce using rule 26 (factor -> MINUS FLOAT .)
+    AND             reduce using rule 26 (factor -> MINUS FLOAT .)
+    OR              reduce using rule 26 (factor -> MINUS FLOAT .)
+    EQT             reduce using rule 26 (factor -> MINUS FLOAT .)
+    NEQ             reduce using rule 26 (factor -> MINUS FLOAT .)
+    LT              reduce using rule 26 (factor -> MINUS FLOAT .)
+    GT              reduce using rule 26 (factor -> MINUS FLOAT .)
+    ELT             reduce using rule 26 (factor -> MINUS FLOAT .)
+    EGT             reduce using rule 26 (factor -> MINUS FLOAT .)
+    $end            reduce using rule 26 (factor -> MINUS FLOAT .)
+    RPAREN          reduce using rule 26 (factor -> MINUS FLOAT .)
+
+
+state 31
 
     (10) expression -> NOT expression .
     (6) expression -> expression . PLUS term
@@ -816,14 +916,14 @@ state 28
     OR              reduce using rule 10 (expression -> NOT expression .)
     $end            reduce using rule 10 (expression -> NOT expression .)
     RPAREN          reduce using rule 10 (expression -> NOT expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    EQT             shift and go to state 19
-    NEQ             shift and go to state 20
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    EQT             shift and go to state 20
+    NEQ             shift and go to state 21
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 10 (expression -> NOT expression .) ]
   ! MINUS           [ reduce using rule 10 (expression -> NOT expression .) ]
@@ -833,38 +933,41 @@ state 28
   ! GT              [ reduce using rule 10 (expression -> NOT expression .) ]
   ! ELT             [ reduce using rule 10 (expression -> NOT expression .) ]
   ! EGT             [ reduce using rule 10 (expression -> NOT expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
 
 
-state 29
+state 32
 
-    (26) factor -> NEWLINE . IDENTIFIER
+    (28) factor -> NEWLINE . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 25
+    IDENTIFIER      shift and go to state 26
 
 
-state 30
+state 33
 
     (22) factor -> factor POWER . factor
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    factor                         shift and go to state 45
+    factor                         shift and go to state 48
 
-state 31
+state 34
 
-    (27) factor -> LPAREN expression . RPAREN
+    (29) factor -> LPAREN expression . RPAREN
     (6) expression -> expression . PLUS term
     (7) expression -> expression . MINUS term
     (11) expression -> expression . AND expression
@@ -876,20 +979,20 @@ state 31
     (17) expression -> expression . ELT expression
     (18) expression -> expression . EGT expression
 
-    RPAREN          shift and go to state 46
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    AND             shift and go to state 17
-    OR              shift and go to state 18
-    EQT             shift and go to state 19
-    NEQ             shift and go to state 20
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    RPAREN          shift and go to state 49
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    AND             shift and go to state 18
+    OR              shift and go to state 19
+    EQT             shift and go to state 20
+    NEQ             shift and go to state 21
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
 
-state 32
+state 35
 
     (1) statement -> VAR IDENTIFIER ASSIGN . expression NEWLINE
     (2) statement -> VAR IDENTIFIER ASSIGN . expression
@@ -912,23 +1015,26 @@ state 32
     (22) factor -> . factor POWER factor
     (23) factor -> . INT
     (24) factor -> . FLOAT
-    (25) factor -> . IDENTIFIER
-    (26) factor -> . NEWLINE IDENTIFIER
-    (27) factor -> . LPAREN expression RPAREN
+    (25) factor -> . MINUS INT
+    (26) factor -> . MINUS FLOAT
+    (27) factor -> . IDENTIFIER
+    (28) factor -> . NEWLINE IDENTIFIER
+    (29) factor -> . LPAREN expression RPAREN
 
-    BOOL            shift and go to state 7
-    NOT             shift and go to state 8
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
+    BOOL            shift and go to state 8
+    NOT             shift and go to state 9
+    INT             shift and go to state 11
+    FLOAT           shift and go to state 12
+    MINUS           shift and go to state 7
     IDENTIFIER      shift and go to state 3
-    NEWLINE         shift and go to state 29
-    LPAREN          shift and go to state 12
+    NEWLINE         shift and go to state 32
+    LPAREN          shift and go to state 13
 
-    expression                     shift and go to state 47
+    expression                     shift and go to state 50
     term                           shift and go to state 6
-    factor                         shift and go to state 9
+    factor                         shift and go to state 10
 
-state 33
+state 36
 
     (6) expression -> expression PLUS term .
     (19) term -> term . TIMES factor
@@ -947,11 +1053,11 @@ state 33
     EGT             reduce using rule 6 (expression -> expression PLUS term .)
     $end            reduce using rule 6 (expression -> expression PLUS term .)
     RPAREN          reduce using rule 6 (expression -> expression PLUS term .)
-    TIMES           shift and go to state 26
-    DIVIDE          shift and go to state 27
+    TIMES           shift and go to state 27
+    DIVIDE          shift and go to state 28
 
 
-state 34
+state 37
 
     (7) expression -> expression MINUS term .
     (19) term -> term . TIMES factor
@@ -970,11 +1076,11 @@ state 34
     EGT             reduce using rule 7 (expression -> expression MINUS term .)
     $end            reduce using rule 7 (expression -> expression MINUS term .)
     RPAREN          reduce using rule 7 (expression -> expression MINUS term .)
-    TIMES           shift and go to state 26
-    DIVIDE          shift and go to state 27
+    TIMES           shift and go to state 27
+    DIVIDE          shift and go to state 28
 
 
-state 35
+state 38
 
     (11) expression -> expression AND expression .
     (6) expression -> expression . PLUS term
@@ -993,14 +1099,14 @@ state 35
     OR              reduce using rule 11 (expression -> expression AND expression .)
     $end            reduce using rule 11 (expression -> expression AND expression .)
     RPAREN          reduce using rule 11 (expression -> expression AND expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    EQT             shift and go to state 19
-    NEQ             shift and go to state 20
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    EQT             shift and go to state 20
+    NEQ             shift and go to state 21
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 11 (expression -> expression AND expression .) ]
   ! MINUS           [ reduce using rule 11 (expression -> expression AND expression .) ]
@@ -1010,11 +1116,11 @@ state 35
   ! GT              [ reduce using rule 11 (expression -> expression AND expression .) ]
   ! ELT             [ reduce using rule 11 (expression -> expression AND expression .) ]
   ! EGT             [ reduce using rule 11 (expression -> expression AND expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
 
 
-state 36
+state 39
 
     (12) expression -> expression OR expression .
     (6) expression -> expression . PLUS term
@@ -1032,15 +1138,15 @@ state 36
     OR              reduce using rule 12 (expression -> expression OR expression .)
     $end            reduce using rule 12 (expression -> expression OR expression .)
     RPAREN          reduce using rule 12 (expression -> expression OR expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    AND             shift and go to state 17
-    EQT             shift and go to state 19
-    NEQ             shift and go to state 20
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    AND             shift and go to state 18
+    EQT             shift and go to state 20
+    NEQ             shift and go to state 21
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 12 (expression -> expression OR expression .) ]
   ! MINUS           [ reduce using rule 12 (expression -> expression OR expression .) ]
@@ -1051,10 +1157,10 @@ state 36
   ! GT              [ reduce using rule 12 (expression -> expression OR expression .) ]
   ! ELT             [ reduce using rule 12 (expression -> expression OR expression .) ]
   ! EGT             [ reduce using rule 12 (expression -> expression OR expression .) ]
-  ! OR              [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
 
 
-state 37
+state 40
 
     (13) expression -> expression EQT expression .
     (6) expression -> expression . PLUS term
@@ -1074,13 +1180,13 @@ state 37
     EQT             reduce using rule 13 (expression -> expression EQT expression .)
     $end            reduce using rule 13 (expression -> expression EQT expression .)
     RPAREN          reduce using rule 13 (expression -> expression EQT expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    NEQ             shift and go to state 20
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    NEQ             shift and go to state 21
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 13 (expression -> expression EQT expression .) ]
   ! MINUS           [ reduce using rule 13 (expression -> expression EQT expression .) ]
@@ -1089,12 +1195,12 @@ state 37
   ! GT              [ reduce using rule 13 (expression -> expression EQT expression .) ]
   ! ELT             [ reduce using rule 13 (expression -> expression EQT expression .) ]
   ! EGT             [ reduce using rule 13 (expression -> expression EQT expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
-  ! EQT             [ shift and go to state 19 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
+  ! EQT             [ shift and go to state 20 ]
 
 
-state 38
+state 41
 
     (14) expression -> expression NEQ expression .
     (6) expression -> expression . PLUS term
@@ -1115,12 +1221,12 @@ state 38
     NEQ             reduce using rule 14 (expression -> expression NEQ expression .)
     $end            reduce using rule 14 (expression -> expression NEQ expression .)
     RPAREN          reduce using rule 14 (expression -> expression NEQ expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 14 (expression -> expression NEQ expression .) ]
   ! MINUS           [ reduce using rule 14 (expression -> expression NEQ expression .) ]
@@ -1128,13 +1234,13 @@ state 38
   ! GT              [ reduce using rule 14 (expression -> expression NEQ expression .) ]
   ! ELT             [ reduce using rule 14 (expression -> expression NEQ expression .) ]
   ! EGT             [ reduce using rule 14 (expression -> expression NEQ expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
-  ! EQT             [ shift and go to state 19 ]
-  ! NEQ             [ shift and go to state 20 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
+  ! EQT             [ shift and go to state 20 ]
+  ! NEQ             [ shift and go to state 21 ]
 
 
-state 39
+state 42
 
     (15) expression -> expression LT expression .
     (6) expression -> expression . PLUS term
@@ -1156,25 +1262,25 @@ state 39
     LT              reduce using rule 15 (expression -> expression LT expression .)
     $end            reduce using rule 15 (expression -> expression LT expression .)
     RPAREN          reduce using rule 15 (expression -> expression LT expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 15 (expression -> expression LT expression .) ]
   ! MINUS           [ reduce using rule 15 (expression -> expression LT expression .) ]
   ! GT              [ reduce using rule 15 (expression -> expression LT expression .) ]
   ! ELT             [ reduce using rule 15 (expression -> expression LT expression .) ]
   ! EGT             [ reduce using rule 15 (expression -> expression LT expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
-  ! EQT             [ shift and go to state 19 ]
-  ! NEQ             [ shift and go to state 20 ]
-  ! LT              [ shift and go to state 21 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
+  ! EQT             [ shift and go to state 20 ]
+  ! NEQ             [ shift and go to state 21 ]
+  ! LT              [ shift and go to state 22 ]
 
 
-state 40
+state 43
 
     (16) expression -> expression GT expression .
     (6) expression -> expression . PLUS term
@@ -1197,24 +1303,24 @@ state 40
     GT              reduce using rule 16 (expression -> expression GT expression .)
     $end            reduce using rule 16 (expression -> expression GT expression .)
     RPAREN          reduce using rule 16 (expression -> expression GT expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 16 (expression -> expression GT expression .) ]
   ! MINUS           [ reduce using rule 16 (expression -> expression GT expression .) ]
   ! ELT             [ reduce using rule 16 (expression -> expression GT expression .) ]
   ! EGT             [ reduce using rule 16 (expression -> expression GT expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
-  ! EQT             [ shift and go to state 19 ]
-  ! NEQ             [ shift and go to state 20 ]
-  ! LT              [ shift and go to state 21 ]
-  ! GT              [ shift and go to state 22 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
+  ! EQT             [ shift and go to state 20 ]
+  ! NEQ             [ shift and go to state 21 ]
+  ! LT              [ shift and go to state 22 ]
+  ! GT              [ shift and go to state 23 ]
 
 
-state 41
+state 44
 
     (17) expression -> expression ELT expression .
     (6) expression -> expression . PLUS term
@@ -1238,23 +1344,23 @@ state 41
     ELT             reduce using rule 17 (expression -> expression ELT expression .)
     $end            reduce using rule 17 (expression -> expression ELT expression .)
     RPAREN          reduce using rule 17 (expression -> expression ELT expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    EGT             shift and go to state 25
 
   ! PLUS            [ reduce using rule 17 (expression -> expression ELT expression .) ]
   ! MINUS           [ reduce using rule 17 (expression -> expression ELT expression .) ]
   ! EGT             [ reduce using rule 17 (expression -> expression ELT expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
-  ! EQT             [ shift and go to state 19 ]
-  ! NEQ             [ shift and go to state 20 ]
-  ! LT              [ shift and go to state 21 ]
-  ! GT              [ shift and go to state 22 ]
-  ! ELT             [ shift and go to state 23 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
+  ! EQT             [ shift and go to state 20 ]
+  ! NEQ             [ shift and go to state 21 ]
+  ! LT              [ shift and go to state 22 ]
+  ! GT              [ shift and go to state 23 ]
+  ! ELT             [ shift and go to state 24 ]
 
 
-state 42
+state 45
 
     (18) expression -> expression EGT expression .
     (6) expression -> expression . PLUS term
@@ -1279,22 +1385,22 @@ state 42
     EGT             reduce using rule 18 (expression -> expression EGT expression .)
     $end            reduce using rule 18 (expression -> expression EGT expression .)
     RPAREN          reduce using rule 18 (expression -> expression EGT expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
 
   ! PLUS            [ reduce using rule 18 (expression -> expression EGT expression .) ]
   ! MINUS           [ reduce using rule 18 (expression -> expression EGT expression .) ]
-  ! AND             [ shift and go to state 17 ]
-  ! OR              [ shift and go to state 18 ]
-  ! EQT             [ shift and go to state 19 ]
-  ! NEQ             [ shift and go to state 20 ]
-  ! LT              [ shift and go to state 21 ]
-  ! GT              [ shift and go to state 22 ]
-  ! ELT             [ shift and go to state 23 ]
-  ! EGT             [ shift and go to state 24 ]
+  ! AND             [ shift and go to state 18 ]
+  ! OR              [ shift and go to state 19 ]
+  ! EQT             [ shift and go to state 20 ]
+  ! NEQ             [ shift and go to state 21 ]
+  ! LT              [ shift and go to state 22 ]
+  ! GT              [ shift and go to state 23 ]
+  ! ELT             [ shift and go to state 24 ]
+  ! EGT             [ shift and go to state 25 ]
 
 
-state 43
+state 46
 
     (19) term -> term TIMES factor .
     (22) factor -> factor . POWER factor
@@ -1314,10 +1420,10 @@ state 43
     EGT             reduce using rule 19 (term -> term TIMES factor .)
     $end            reduce using rule 19 (term -> term TIMES factor .)
     RPAREN          reduce using rule 19 (term -> term TIMES factor .)
-    POWER           shift and go to state 30
+    POWER           shift and go to state 33
 
 
-state 44
+state 47
 
     (20) term -> term DIVIDE factor .
     (22) factor -> factor . POWER factor
@@ -1337,10 +1443,10 @@ state 44
     EGT             reduce using rule 20 (term -> term DIVIDE factor .)
     $end            reduce using rule 20 (term -> term DIVIDE factor .)
     RPAREN          reduce using rule 20 (term -> term DIVIDE factor .)
-    POWER           shift and go to state 30
+    POWER           shift and go to state 33
 
 
-state 45
+state 48
 
     (22) factor -> factor POWER factor .
     (22) factor -> factor . POWER factor
@@ -1360,34 +1466,34 @@ state 45
     EGT             reduce using rule 22 (factor -> factor POWER factor .)
     $end            reduce using rule 22 (factor -> factor POWER factor .)
     RPAREN          reduce using rule 22 (factor -> factor POWER factor .)
-    POWER           shift and go to state 30
+    POWER           shift and go to state 33
 
   ! POWER           [ reduce using rule 22 (factor -> factor POWER factor .) ]
 
 
-state 46
+state 49
 
-    (27) factor -> LPAREN expression RPAREN .
+    (29) factor -> LPAREN expression RPAREN .
 
-    POWER           reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    TIMES           reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    NEWLINE         reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    AND             reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    OR              reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    EQT             reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    NEQ             reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    LT              reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    GT              reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    ELT             reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    EGT             reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    $end            reduce using rule 27 (factor -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 27 (factor -> LPAREN expression RPAREN .)
+    POWER           reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    NEWLINE         reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    AND             reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    OR              reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    EQT             reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    NEQ             reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    LT              reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    GT              reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    ELT             reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    EGT             reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    $end            reduce using rule 29 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 29 (factor -> LPAREN expression RPAREN .)
 
 
-state 47
+state 50
 
     (1) statement -> VAR IDENTIFIER ASSIGN expression . NEWLINE
     (2) statement -> VAR IDENTIFIER ASSIGN expression .
@@ -1402,21 +1508,21 @@ state 47
     (17) expression -> expression . ELT expression
     (18) expression -> expression . EGT expression
 
-    NEWLINE         shift and go to state 48
+    NEWLINE         shift and go to state 51
     $end            reduce using rule 2 (statement -> VAR IDENTIFIER ASSIGN expression .)
-    PLUS            shift and go to state 15
-    MINUS           shift and go to state 16
-    AND             shift and go to state 17
-    OR              shift and go to state 18
-    EQT             shift and go to state 19
-    NEQ             shift and go to state 20
-    LT              shift and go to state 21
-    GT              shift and go to state 22
-    ELT             shift and go to state 23
-    EGT             shift and go to state 24
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+    AND             shift and go to state 18
+    OR              shift and go to state 19
+    EQT             shift and go to state 20
+    NEQ             shift and go to state 21
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    ELT             shift and go to state 24
+    EGT             shift and go to state 25
 
 
-state 48
+state 51
 
     (1) statement -> VAR IDENTIFIER ASSIGN expression NEWLINE .
 

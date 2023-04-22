@@ -3,7 +3,10 @@ import sys
 
 
 interpreter = Interpreter()
-filename = sys.argv[1]
+try:
+    filename = sys.argv[1]
+except:
+    filename = False
 
 
 while True:
